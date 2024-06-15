@@ -1,5 +1,4 @@
-# Impact-of-Financial-Factors-on-Cash-Holdings
-Impact Of Financial Factors On Cash Holdings Of Food And Beverage Companies In Vietnam In 2020
+# Impact Of Financial Factors On Cash Holdings Of Food And Beverage Companies In Vietnam In 2020
 
 Before 2020, Vietnam's F&B market continued to grow and was assessed to be full of potential. However, in the outbreak of the COVID-19 pandemic, the activities of many businesses in the industry have been facing a problem of survival. According to a survey by VnExpress, the cash flow of 46% of corporations has dried up, just enough for businesses to maintain operations for 1-3 months.  
 
