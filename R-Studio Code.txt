@@ -1,0 +1,88 @@
+KIỂM TRA COMPUTER TEST KTL: 
+  
+#Descriptuve statistics 
+  #univariate
+  summary(x)
+  length(x$CASH)
+  mean(x$CASH)
+  sd(x$CASH)
+  min(x$CASH)
+  max(x$CASH)
+  #bivariate
+  dat<-x[,3:9]
+  round(cor(dat),4)
+  cov(x$CASH,x$LEV)
+  var(x$CASH)
+  cor(x$CASH,x$LEV)
+  pairs(dat, pch=19)
+  round(cov(dat),4)
+#Regression
+  model<-lm(x$CASH~x$LEV+x$GROWTH+x$DPR+x$ITD+x$CAPEX)
+  summary(model)
+  coef<-coefficients(model[1:6])
+  #Test linear hypothsis
+  install.packages("AER")
+  library(AER)
+  linearHypothesis(reg1,"x1 = 1.36")
+  linearHypothesis(model,"x$LEV + 2*x$ITD = 1 ")
+  #Test reduced model
+  model<-lm(x$CASH~x$LEV+x$GROWTH+x$DPR+x$ITD+x$CAPEX)
+  model1<-lm(x$CASH~x$LEV+x$GROWTH+x$ITD+x$CAPEX)
+  anova(model,model1)
+  #Model lin-log, log-lin, log-log
+  exp <-c(1,2,2,3,4,5,7,10,10,12,15,16)
+  edu <-c(13,12,16,11,15,15,10,15,13,11,13,15)
+  male <- c(1,1,0,0,1,0,1,0,0,1,1,0)
+  
+  wage <- c(6,6,12,6,11,8,8,10,11,10,15,13)
+  
+  ml<-lm(wage~edu+male+exp)
+  summary(lm(wage~edu+male+exp))
+  
+#Test for outlier point  
+  model<-lm(wage~exp)
+  #test for high leverage
+  H<- lm.influence(model)$hat
+  round(H,2)
+  #Cook distance test 
+  round(cooks.distance(reg1),3)
+  qf(0.95,7,63)
+  #test standardized residual 
+  H<- lm.influence(reg1)$hat
+  s<-sqrt(deviance(reg1)/df.residual(reg1))
+  resid.s<-resid(reg1)/(s*sqrt(1-H))
+  resid.s
+  
+  #Dummy filter 
+  male <- c("male","male","female","female","male","female","male","female","female","male","male","female")
+  m<-ifelse(male=="male",1,0)
+  exp <- (exp>5)
+  
+  summary(lm(wage~log(exp)+male+log(edu)))
+  summary(lm(log(wage)~edu+male+exp))
+  model<-lm(wage~ exp+ I (exp^2))
+  summary(model)
+  reg.quad<-lm(wage ~ I (1/exp))
+  
+  # Diagnotic test:
+  #ramsey test:
+  install.packages("zoo")
+  install.packages("lmtest")
+  
+  library(zoo)
+  library(lmtest)
+  resettest(reg1) #automatic: power 2 and 3
+  resettest(lm(wage~exp),power = 2:5)
+  
+  # VIF Multicollinear 
+  library(car)
+  vif(reg1)
+  
+  #bp test 
+  library(car)
+  library(sandwich)
+  library(lmtest)
+  bptest(reg1)
+  
+  #coeftest
+  coeftest(ml,vcov=vcovHC(ml,type="HC"))
